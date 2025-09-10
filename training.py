@@ -8,7 +8,7 @@ from sklearn.metrics import (
 )
 import time
 from datetime import datetime
-
+import tensorflow as tf
 from data_preprocessing import DataPreprocessor
 from model import ResNet50CharacterModel, DeepCNNModel
 
@@ -165,59 +165,25 @@ class ModelTrainer:
     def plot_training_history(self, history, title="training_history"):
         """Plot and save training history"""
 
-        fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+        fig, axes = plt.subplots(2, figsize=(15, 10))
 
         # Accuracy plot
-        axes[0, 0].plot(history.history['accuracy'], label='Training Accuracy', linewidth=2)
-        axes[0, 0].plot(history.history['val_accuracy'], label='Validation Accuracy', linewidth=2)
-        axes[0, 0].set_title(f'{title} - Model Accuracy', fontsize=14, fontweight='bold')
-        axes[0, 0].set_xlabel('Epoch')
-        axes[0, 0].set_ylabel('Accuracy')
-        axes[0, 0].legend()
-        axes[0, 0].grid(True, alpha=0.3)
+        axes[0].plot(history.history['accuracy'], label='Training Accuracy', linewidth=2)
+        axes[0].plot(history.history['val_accuracy'], label='Validation Accuracy', linewidth=2)
+        axes[0].set_title(f'{title} - Model Accuracy', fontsize=14, fontweight='bold')
+        axes[0].set_xlabel('Epoch')
+        axes[0].set_ylabel('Accuracy')
+        axes[0].legend()
+        axes[0].grid(True, alpha=0.3)
 
         # Loss plot
-        axes[0, 1].plot(history.history['loss'], label='Training Loss', linewidth=2)
-        axes[0, 1].plot(history.history['val_loss'], label='Validation Loss', linewidth=2)
-        axes[0, 1].set_title(f'{title} - Model Loss', fontsize=14, fontweight='bold')
-        axes[0, 1].set_xlabel('Epoch')
-        axes[0, 1].set_ylabel('Loss')
-        axes[0, 1].legend()
-        axes[0, 1].grid(True, alpha=0.3)
-
-        # Top-3 Accuracy plot
-        if 'top_3_accuracy' in history.history:
-            axes[1, 0].plot(history.history['top_3_accuracy'], label='Training Top-3 Acc', linewidth=2)
-            axes[1, 0].plot(history.history['val_top_3_accuracy'], label='Validation Top-3 Acc', linewidth=2)
-            axes[1, 0].set_title(f'{title} - Top-3 Accuracy', fontsize=14, fontweight='bold')
-            axes[1, 0].set_xlabel('Epoch')
-            axes[1, 0].set_ylabel('Top-3 Accuracy')
-            axes[1, 0].legend()
-            axes[1, 0].grid(True, alpha=0.3)
-        else:
-            axes[1, 0].text(0.5, 0.5, 'Top-3 Accuracy\nNot Available', 
-                          ha='center', va='center', fontsize=14)
-            axes[1, 0].set_title('Top-3 Accuracy')
-
-        # Learning rate plot (if available)
-        if 'lr' in history.history:
-            axes[1, 1].plot(history.history['lr'], label='Learning Rate', linewidth=2, color='red')
-            axes[1, 1].set_title(f'{title} - Learning Rate', fontsize=14, fontweight='bold')
-            axes[1, 1].set_xlabel('Epoch')
-            axes[1, 1].set_ylabel('Learning Rate')
-            axes[1, 1].set_yscale('log')
-            axes[1, 1].legend()
-            axes[1, 1].grid(True, alpha=0.3)
-        else:
-            # Show training progress instead
-            epochs = len(history.history['accuracy'])
-            axes[1, 1].plot(range(1, epochs + 1), history.history['accuracy'], 
-                          label='Training Progress', linewidth=2, color='green')
-            axes[1, 1].set_title('Training Progress', fontsize=14, fontweight='bold')
-            axes[1, 1].set_xlabel('Epoch')
-            axes[1, 1].set_ylabel('Accuracy')
-            axes[1, 1].legend()
-            axes[1, 1].grid(True, alpha=0.3)
+        axes[1].plot(history.history['loss'], label='Training Loss', linewidth=2)
+        axes[1].plot(history.history['val_loss'], label='Validation Loss', linewidth=2)
+        axes[1].set_title(f'{title} - Model Loss', fontsize=14, fontweight='bold')
+        axes[1].set_xlabel('Epoch')
+        axes[1].set_ylabel('Loss')
+        axes[1].legend()
+        axes[1].grid(True, alpha=0.3)
 
         plt.tight_layout()
         plt.savefig(f'results/{title}.png', dpi=300, bbox_inches='tight')

@@ -157,15 +157,6 @@ class CharacterRecognitionGUI:
         )
         title_label.pack(expand=True)
 
-        subtitle_label = tk.Label(
-            title_frame,
-            text="ResNet50 & Deep CNN Model Testing Interface",
-            font=('Segoe UI', 11),
-            bg="#3498db",
-            fg="#ecf0f1"
-        )
-        subtitle_label.place(relx=0.5, rely=0.7, anchor="center")
-
         # Main container
         main_frame = tk.Frame(self.root, bg="#f8f9fa")
         main_frame.pack(fill="both", expand=True, padx=15, pady=15)

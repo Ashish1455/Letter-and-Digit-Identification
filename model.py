@@ -11,7 +11,6 @@ from tensorflow.keras.regularizers import l1_l2
 import os
 
 class ResNet50CharacterModel:
-    """ResNet50 pretrained backbone with custom classifier head"""
 
     def __init__(self, input_shape=(128, 128, 3), num_classes=62):
         self.input_shape = input_shape
@@ -44,9 +43,9 @@ class ResNet50CharacterModel:
             print("✓ ResNet50 backbone frozen")
         else:
             # Fine-tune only the top layers
-            for layer in backbone.layers[:-20]:
+            for layer in backbone.layers[:-10]:
                 layer.trainable = False
-            print("✓ ResNet50 backbone fine-tuning enabled (top 20 layers)")
+            print("✓ ResNet50 backbone fine-tuning enabled (top 10 layers)")
 
         # Extract features from backbone
         x = backbone.output
@@ -57,7 +56,7 @@ class ResNet50CharacterModel:
 
         # First dense layer
         x = Dense(1024, activation='relu', name='fc1')(x)
-        x = Dropout(0.5, name='dropout1')(x)
+        x = Dropout(0.3, name='dropout1')(x)
         x = BatchNormalization(name='bn2')(x)
 
         # Second dense layer
@@ -123,14 +122,14 @@ class ResNet50CharacterModel:
             ),
             EarlyStopping(
                 monitor='val_loss',
-                patience=15,
+                patience=8,
                 restore_best_weights=True,
                 verbose=1
             ),
             ReduceLROnPlateau(
                 monitor='val_loss',
                 factor=0.5,
-                patience=8,
+                patience=5,
                 min_lr=1e-7,
                 verbose=1
             )
@@ -290,14 +289,14 @@ class DeepCNNModel:
             ),
             EarlyStopping(
                 monitor='val_loss',
-                patience=20,
+                patience=10,
                 restore_best_weights=True,
                 verbose=1
             ),
             ReduceLROnPlateau(
                 monitor='val_loss',
                 factor=0.2,
-                patience=10,
+                patience=6,
                 min_lr=1e-7,
                 verbose=1
             )
