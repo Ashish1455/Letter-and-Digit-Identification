@@ -11,6 +11,7 @@ from datetime import datetime
 import tensorflow as tf
 from data_preprocessing import DataPreprocessor
 from model import ResNet50CharacterModel, DeepCNNModel
+from tensorflow.keras.models import load_model
 
 class ModelTrainer:
     """Handles training and evaluation of ResNet50 and Deep CNN models"""
@@ -208,8 +209,6 @@ class ModelTrainer:
 
         # Calculate various metrics
         accuracy = accuracy_score(y_true, y_pred)
-        top3_accuracy = top_k_accuracy_score(y_test, y_pred_proba, k=3)
-        top5_accuracy = top_k_accuracy_score(y_test, y_pred_proba, k=5)
 
         # Per-class metrics
         precision, recall, f1, support = precision_recall_fscore_support(
@@ -238,8 +237,6 @@ class ModelTrainer:
         results = {
             'model_name': model_name,
             'accuracy': accuracy,
-            'top3_accuracy': top3_accuracy,
-            'top5_accuracy': top5_accuracy,
             'macro_precision': macro_precision,
             'macro_recall': macro_recall,
             'macro_f1': macro_f1,
@@ -264,7 +261,7 @@ class ModelTrainer:
 
         # Print detailed results
         print(f"📊 EVALUATION RESULTS FOR {model_name}")
-        print(f"{'─' * 50}")
+        print(f"{'─' * 40}")
         print(f"Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
         print(f"Macro F1-Score: {macro_f1:.4f}")
         print(f"Weighted F1-Score: {weighted_f1:.4f}")
@@ -279,7 +276,6 @@ class ModelTrainer:
         """Evaluate all trained models"""
 
         print("MODEL EVALUATION")
-
         for model_name, model in self.trained_models.items():
             self.evaluate_model(model, test_data, model_name)
 
@@ -301,8 +297,6 @@ class ModelTrainer:
             comparison_data.append({
                 'Model': model_name,
                 'Accuracy': results['accuracy'],
-                'Top-3 Accuracy': results['top3_accuracy'],
-                'Top-5 Accuracy': results['top5_accuracy'],
                 'Macro F1': results['macro_f1'],
                 'Weighted F1': results['weighted_f1'],
                 'Inference Time (s)': results['inference_time'],
@@ -315,7 +309,6 @@ class ModelTrainer:
         comparison_df = comparison_df.sort_values('Accuracy', ascending=False)
 
         print("\n📋 PERFORMANCE COMPARISON")
-        print("─" * 100)
         print(comparison_df.to_string(index=False, float_format=lambda x: f'{x:.4f}'))
 
         # Save comparison to CSV
