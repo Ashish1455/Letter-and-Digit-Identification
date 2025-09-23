@@ -81,7 +81,7 @@ python gui_app.py
 
 The GUI application provides an intuitive interface for testing your trained models:
 
-![GUI Interface](gui%20picture.png)
+![GUI Interface](gui_picture.png)
 
 **Key Features:**
 - **Load Images**: Import character images for testing
