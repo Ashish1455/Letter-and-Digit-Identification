@@ -81,7 +81,7 @@ python gui_app.py
 
 The GUI application provides an intuitive interface for testing your trained models:
 
-![GUI Interface](gui_picture.png)
+![GUI Interface](gui%20picture.png)
 
 **Key Features:**
 - **Load Images**: Import character images for testing
@@ -152,10 +152,8 @@ The model recognizes **62 different classes**:
 ## 🚀 Future Enhancements
 
 - [ ] Real-time webcam character recognition
-- [ ] Ensemble model implementation
-- [ ] Data augmentation improvements
-- [ ] Model optimization for edge devices
-
+- [ ] Complete word recognition
+- [ ] Conversion from handwritten input to digital text
 
 ## 🙏 Acknowledgments
 
