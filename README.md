@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 ### 2. Prepare Dataset
 
-Download the [Handwritten English Characters and Digits Dataset](https://www.kaggle.com/datasets/sujaymann/handwritten-english-characters-and-digits?select=augmented_images) from Kaggle and extract the dataset files into the `data/augmented_images1/` directory.
+Download the [Handwritten English Characters and Digits Dataset](https://www.kaggle.com/datasets/sujaymann/handwritten-english-characters-and-digits?select=augmented_images) from Kaggle and extract the dataset files into the `data/raw/augmented_images/` directory.
 
 ### 3. Train Models
 
