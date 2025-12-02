@@ -1,9 +1,3 @@
-
-"""
-data_preprocessing.py
-Data loading, preprocessing, and augmentation for handwritten character recognition
-"""
-
 import os
 import cv2
 import numpy as np
